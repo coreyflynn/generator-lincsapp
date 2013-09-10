@@ -1,6 +1,6 @@
 # generator-lincsapp [![Build Status](https://secure.travis-ci.org/coreyflynn/generator-lincsapp.png?branch=master)](https://travis-ci.org/coreyflynn/generator-lincsapp)
 
-A generator for [Yeoman](http://yeoman.io).
+A [Yeoman](http://yeoman.io) generator for LINCS webapps.
 
 
 ## Getting Started
