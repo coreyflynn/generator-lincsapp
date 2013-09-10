@@ -5,13 +5,9 @@ A [Yeoman](http://yeoman.io) generator for LINCS webapps.
 
 ## Getting Started
 
-### What is Yeoman?
+### How do I use this thing?
 
-Trick question. It's not a thing. It's this guy:
-
-![](http://i.imgur.com/JHaAlBJ.png)
-
-Basically, he wears a top hat, lives in your computer, and waits for you to tell him what kind of application you wish to create.
+This is a [yeoman](http://yeoman.io) generator, so you need to have [yeoman](http://yeoman.io) installed.  Head over to  [yeoman](http://yeoman.io)
 
 Not every new computer comes with a Yeoman pre-installed. He lives in the [npm](https://npmjs.org) package repository. You only have to ask for him once, then he packs up and moves into your hard drive. *Make sure you clean up, he likes new and shiny things.*
 
@@ -21,7 +17,7 @@ $ npm install -g yo
 
 ### Yeoman Generators
 
-Yeoman travels light. He didn't pack any generators when he moved in. You can think of a generator like a plug-in. You get to choose what type of application you wish to create, such as a Backbone application or even a Chrome extension.
+Yeoman travels light. He didn't pack any generators when he moved in. You can think of a generator like a plug-in. You get to choose what type of application you wish to create, such as a Backbone application or even a Chrome extension.  This generator sets you up with a shiny new template LINCS web application along with fun things like an auto-updating dev enviroment.
 
 To install generator-lincsapp from npm, run:
 
@@ -29,17 +25,27 @@ To install generator-lincsapp from npm, run:
 $ npm install -g generator-lincsapp
 ```
 
-Finally, initiate the generator:
+next make a folder to hold your webapp and run the following to initiate the generator in that folder:
 
 ```
 $ yo lincsapp
 ```
 
-### Getting To Know Yeoman
+yeoman will ask you a few questions to set up your app and install dependencies for the dev environment.  To see your new app in action run:
 
-Yeoman has a heart of gold. He's a person with feelings and opinions, but he's very easy to work with. If you think he's too opinionated, he can be easily convinced.
+```
+$ grunt server
+```
 
-If you'd like to get to know Yeoman better and meet some of his friends, [Grunt](http://gruntjs.com) and [Bower](http://bower.io), check out the complete [Getting Started Guide](https://github.com/yeoman/yeoman/wiki/Getting-Started).
+with that up and running, modify the file at:
+
+```
+app/index.html
+```
+
+to grow your app and watch it take shape with live updates!
+
+
 
 
 ## License
