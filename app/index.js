@@ -77,8 +77,10 @@ LincsappGenerator.prototype.app = function app() {
   this.template('_Gruntfile.js', 'Gruntfile.js');
 
   // copy the default package.json to the base directory after processing
-  // with Lo-Dash so we can install dependencies later
   this.template('_package.json', 'package.json');
+    
+  // copy the default package.json to the base directory after processing
+  this.template('_barista_config.json', 'app/barista_config.json');
 };
 
 LincsappGenerator.prototype.projectfiles = function projectfiles() {

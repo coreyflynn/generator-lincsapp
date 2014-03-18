@@ -1,6 +1,6 @@
 {
   "name": "generator-lincsapp",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "A Yeoman generator for LINCS webapps",
   "keywords": [
     "yeoman-generator"
