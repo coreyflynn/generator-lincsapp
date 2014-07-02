@@ -82,8 +82,9 @@ LincsappGenerator.prototype.app = function app() {
   // copy the default package.json to the base directory after processing
   this.template('_package.json', 'package.json');
 
-  // copy the default package.json to the base directory after processing
+  // copy the default bower configuration to the base directory after processing
   this.template('_bower.json', 'bower.json');
+  this.copy('.bowerrc','.bowerrc');
 
   // copy the default package.json to the base directory after processing
   this.template('_barista_config.json', 'public/barista_config.json');
