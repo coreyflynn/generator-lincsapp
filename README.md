@@ -34,13 +34,13 @@ $ yo lincsapp
 yeoman will ask you a few questions to set up your app and install dependencies for the dev environment.  To see your new app in action run:
 
 ```
-$ grunt server
+$ grunt
 ```
 
 with that up and running, modify the file at:
 
 ```
-app/index.html
+views/index.jade
 ```
 
 to grow your app and watch it take shape with live updates!
