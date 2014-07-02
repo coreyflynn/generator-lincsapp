@@ -1,53 +1,73 @@
-// Generated on <%= (new Date).toISOString().split('T')[0] %> using <%= pkg.name %> <%= pkg.version %>
 'use strict';
-var moment = require('moment');
- 
-var LIVERELOAD_PORT = 35729;
-var lrSnippet = require('connect-livereload')({port: LIVERELOAD_PORT});
-var mountFolder = function (connect, dir) {
-  return connect.static(require('path').resolve(dir));
-};
- 
+
+var request = require('request');
+
 module.exports = function (grunt) {
+  // show elapsed time at the end
+  require('time-grunt')(grunt);
   // load all grunt tasks
-  require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
- 
+  require('load-grunt-tasks')(grunt);
+
+  var reloadPort = 35729, files;
+
   grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+    develop: {
+      server: {
+        file: 'app.js'
+      }
+    },
     watch: {
       options: {
         nospawn: true,
-        livereload: LIVERELOAD_PORT
+        livereload: reloadPort
       },
-      livereload: {
-        files: [
-          'app/index.html'
-        ]
-        // tasks: ['build']
-      }
-    },
-    connect: {
-      options: {
-        port: 9000,
-        // change this to '0.0.0.0' to access the server from outside
-        hostname: 'localhost'
-      },
-      livereload: {
-        options: {
-          middleware: function (connect) {
-            return [
-              lrSnippet,
-              mountFolder(connect, './app')
-            ];
-          }
-        }
-      }
-    },
-    open: {
       server: {
-        path: 'http://localhost:<%%= connect.options.port %>'
+        files: [
+          'app.js',
+          'routes/*.js'
+        ],
+        tasks: ['develop', 'delayed-livereload']
+      },
+      js: {
+        files: ['public/js/*.js'],
+        options: {
+          livereload: reloadPort
+        }
+      },
+      css: {
+        files: ['public/css/*.css'],
+        options: {
+          livereload: reloadPort
+        }
+      },
+      views: {
+        files: ['views/*'],
+        options: {
+          livereload: reloadPort
+        }
       }
     }
   });
- 
-  grunt.registerTask('server', ['connect:livereload', 'open', 'watch']);
+
+  grunt.config.requires('watch.server.files');
+  files = grunt.config('watch.server.files');
+  files = grunt.file.expand(files);
+
+  grunt.registerTask('delayed-livereload', 'Live reload after the node server has restarted.', function () {
+    var done = this.async();
+    setTimeout(function () {
+      request.get('http://localhost:' + reloadPort + '/changed?files=' + files.join(','),  function (err, res) {
+          var reloaded = !err && res.statusCode === 200;
+          if (reloaded) {
+            grunt.log.ok('Delayed live reload successful.');
+          } else {
+            grunt.log.error('Unable to make a delayed live reload.');
+          }
+          done(reloaded);
+        });
+    }, 500);
+  });
+
+  grunt.registerTask('default', ['develop', 'watch']);
 };

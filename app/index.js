@@ -12,6 +12,7 @@ var LincsappGenerator = module.exports = function LincsappGenerator(args, option
 
   this.on('end', function () {
     this.installDependencies({ skipInstall: options['skip-install'] });
+    this.log("type 'grunt' to launch the app");
   });
 
   this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
@@ -36,49 +37,46 @@ LincsappGenerator.prototype.askFor = function askFor() {
     name: 'appDescription',
     message: 'Give me a short description of your app',
     default: 'The New Hotness'
+  },
+  {
+    type: 'input',
+    name: 'barista_key',
+    message: 'Enter your Barista Key. If left blank, API calls to lincscloud.org will not work',
+    default: ''
   }];
 
   this.prompt(prompts, function (props) {
     this.appName = props.appName;
     this.appDescription = props.appDescription;
+    this.barista_key = props.barista_key;
 
     cb();
   }.bind(this));
 };
 
+LincsappGenerator.prototype.buildViews = function buildViews() {
+  this.sourceRoot(path.join(__dirname, 'templates', 'views'));
+  this.directory('.', 'views');
+  this.template('index.jade','index.jade');
+}
+
+LincsappGenerator.prototype.buildRoutes = function buildRoutes() {
+  this.sourceRoot(path.join(__dirname, 'templates', 'routes'));
+  this.directory('.', 'routes');
+}
+
 LincsappGenerator.prototype.app = function app() {
-  var self = this;
-  // create an app directory to hold the app we are buiding
-  this.mkdir('app');
+  this.sourceRoot(path.join(__dirname, 'templates'));
 
-  // create an views directory to hold the jade template we are
-  // going to build the index.html for the app from
-  this.mkdir('views');
-
-  // copy the app.jade template to the views file
-  this.copy('app.jade', 'views/app.jade');
-
-  // compile and render the html template
-  fs.readFile(path.join(__dirname, 'templates/app.jade'), 'utf8', function (err, data) {
-    if (err) throw err;
-    var fn = jade.compile(data,{pretty:true});
-    html = fn({appName:self.appName, appDescription: self.appDescription});
-    // write the rendered html string to file
-    fs.writeFile("app/index.html", html, function(err) {
-      if(err) {
-          console.log(err);
-      } else {
-          console.log("created app/index.html");
-      }
-    });
-  });
+  // copy the default app file
+  this.copy('app.js','app.js')
 
   // copy the default Gruntfile.js to the base directory after processing
   this.template('_Gruntfile.js', 'Gruntfile.js');
 
   // copy the default package.json to the base directory after processing
   this.template('_package.json', 'package.json');
-    
+
   // copy the default package.json to the base directory after processing
   this.template('_barista_config.json', 'app/barista_config.json');
 };
