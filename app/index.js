@@ -42,7 +42,7 @@ LincsappGenerator.prototype.askFor = function askFor() {
     type: 'input',
     name: 'barista_key',
     message: 'Enter your Barista Key. If left blank, API calls to lincscloud.org will not work',
-    default: ''
+    default: 'I have no key'
   }];
 
   this.prompt(prompts, function (props) {
@@ -65,6 +65,11 @@ LincsappGenerator.prototype.buildRoutes = function buildRoutes() {
   this.directory('.', 'routes');
 }
 
+LincsappGenerator.prototype.buildPublic = function buildPublic() {
+  this.sourceRoot(path.join(__dirname, 'templates', 'public'));
+  this.directory('.', 'public');
+}
+
 LincsappGenerator.prototype.app = function app() {
   this.sourceRoot(path.join(__dirname, 'templates'));
 
@@ -78,7 +83,10 @@ LincsappGenerator.prototype.app = function app() {
   this.template('_package.json', 'package.json');
 
   // copy the default package.json to the base directory after processing
-  this.template('_barista_config.json', 'app/barista_config.json');
+  this.template('_bower.json', 'bower.json');
+
+  // copy the default package.json to the base directory after processing
+  this.template('_barista_config.json', 'public/barista_config.json');
 };
 
 LincsappGenerator.prototype.projectfiles = function projectfiles() {
