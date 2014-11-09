@@ -2,6 +2,6 @@
   "name": "<%= _.slugify(appname) %>",
   "version": "0.0.1",
   "dependencies": {
-      "paper-elements": "Polymer/paper-elements#~0.3.3"
+      "barista": "git@github.com:cmap/barista.git#<%= barista_branch %>"
   }
 }
